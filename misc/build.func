@@ -292,7 +292,7 @@ get_header() {
     local app_name
     app_name=$(echo "${APP,,}" | tr -d ' ')
     # Update the URL to point to your fork and the new headers path:
-    local header_url="https://raw.githubusercontent.com/astraeus-sirius/ProxmoxVE/main/install/headers/${app_name}"
+    local header_url="https://raw.githubusercontent.com/astraeus-sirius/ProxmoxVE/main/ct/headers/${app_name}"
     local local_header_path="/usr/local/community-scripts/headers/${app_name}"
 
     mkdir -p "$(dirname "$local_header_path")"
