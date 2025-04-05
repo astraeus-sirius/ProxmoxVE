@@ -44,6 +44,8 @@ echo -e "${CREATING}${GN}${APP} setup has been successfully initialized!${CL}"
 echo -e "${INFO}${YW} Access it using the following URL:${CL}"
 echo -e "${TAB}${GATEWAY}${BGN}http://${IP}:9200${CL}"
 
+# --- Begin Elasticsearch installation inside the container ---
+
 msg_info "Installing Dependencies inside container"
 lxc-attach -n "$CT_ID" -- bash -c 'apt-get update && apt-get install -y apt-transport-https curl gnupg'
 msg_ok "Installed Dependencies inside container"
@@ -63,6 +65,11 @@ msg_ok "Package lists updated inside container"
 msg_info "Installing Elasticsearch inside container"
 lxc-attach -n "$CT_ID" -- bash -c 'apt-get install -y elasticsearch'
 msg_ok "Elasticsearch installed inside container"
+
+# Set vm.max_map_count as required by Elasticsearch
+msg_info "Setting vm.max_map_count inside container"
+lxc-attach -n "$CT_ID" -- bash -c 'sysctl -w vm.max_map_count=262144'
+msg_ok "vm.max_map_count set to 262144 inside container"
 
 msg_info "Enabling and starting Elasticsearch service inside container"
 lxc-attach -n "$CT_ID" -- bash -c 'systemctl daemon-reload && systemctl enable --now elasticsearch'
